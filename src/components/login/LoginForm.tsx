@@ -1,0 +1,71 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { ArrowRight, Mail } from "lucide-react";
+
+export function LoginForm() {
+  const [email, setEmail] = useState("");
+
+  return (
+    <div className="mx-auto flex w-full max-w-lg flex-col">
+      <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">Login</h1>
+      <p className="mt-3 text-zinc-500">
+        Join the UK&apos;s premier network for top-tier removal professionals. Customers and
+        moving partners can now log in to access their dashboards and track moving history.
+      </p>
+
+      <form
+        className="mt-8 flex flex-col gap-4"
+        onSubmit={(e) => e.preventDefault()}
+      >
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-zinc-900">
+            Email
+            <span className="ml-0.5 text-red-500">*</span>
+          </span>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
+            <input
+              type="email"
+              required
+              placeholder="Enter Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-xl border border-zinc-200 py-3 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+        </label>
+
+        <div className="mt-4 flex justify-end">
+          <button
+            type="submit"
+            className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+          >
+            Login
+            <ArrowRight className="size-4" />
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-8 flex flex-col items-center gap-3 border-t border-zinc-100 pt-6 text-center text-sm text-zinc-500">
+        <p>
+          I don&apos;t have an account?{" "}
+          <Link href="/become-a-partner/signup" className="font-medium text-indigo-600 underline hover:text-indigo-700">
+            Become a Partner
+          </Link>
+        </p>
+        <p>
+          By clicking continue, you agree to our{" "}
+          <Link href="/terms" className="font-medium text-zinc-700 underline hover:text-zinc-900">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="font-medium text-zinc-700 underline hover:text-zinc-900">
+            Privacy Policy
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}
