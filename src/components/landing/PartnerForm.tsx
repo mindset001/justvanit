@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, ChevronDown, Eye, EyeOff, Mail, Plus } from "lucide-react";
 import { ProgressRing } from "./ProgressRing";
 import { MOVING_TYPES } from "./QuoteForm";
+import { Select } from "../ui/Select";
 
 const VEHICLE_TYPES = [
   "Small Van",
@@ -103,37 +104,6 @@ function Field({
   );
 }
 
-function Select({
-  value,
-  onChange,
-  options,
-  placeholder,
-}: {
-  value: string;
-  onChange: (value: string) => void;
-  options: string[];
-  placeholder: string;
-}) {
-  return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`${INPUT_CLASS} appearance-none bg-white pr-10`}
-      >
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
-    </div>
-  );
-}
 
 export function PartnerForm() {
   const [step, setStep] = useState(1);
@@ -247,7 +217,8 @@ export function PartnerForm() {
                 value={form.movingService}
                 onChange={(v) => update("movingService", v)}
                 options={MOVING_TYPES}
-                placeholder="Select Moving Type"
+                placeholder="Select"
+                triggerClassName={INPUT_CLASS}
               />
             </Field>
 
@@ -267,7 +238,8 @@ export function PartnerForm() {
                 value={form.vehiclesInOperation}
                 onChange={(v) => update("vehiclesInOperation", v)}
                 options={VEHICLE_TYPES}
-                placeholder="Select Moving Vehicles"
+                placeholder="Select"
+                triggerClassName={INPUT_CLASS}
               />
             </Field>
 

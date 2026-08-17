@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -10,9 +10,11 @@ import {
   Clock,
   MapPin,
   Truck,
+  X,
 } from "lucide-react";
 import { QuoteCompareModal } from "./QuoteCompareModal";
 import { ProgressRing } from "./ProgressRing";
+import { Select } from "../ui/Select";
 
 export const MOVING_TYPES = [
   "Residential & Apartment Moving",
@@ -87,7 +89,7 @@ type FormState = {
   accessOptions: string;
   eliteServices: string;
   handlingRequirement: string;
-  mediaFileName: string;
+  mediaFiles: File[];
 };
 
 const INITIAL_STATE: FormState = {
@@ -102,7 +104,7 @@ const INITIAL_STATE: FormState = {
   accessOptions: "",
   eliteServices: "",
   handlingRequirement: "",
-  mediaFileName: "",
+  mediaFiles: [],
 };
 
 function ordinal(value: string) {
@@ -192,7 +194,7 @@ export function QuoteForm() {
                 value={form.movingType}
                 onChange={(v) => update("movingType", v)}
                 options={MOVING_TYPES}
-                placeholder="Select Moving Type"
+                placeholder="Select"
               />
             </Field>
 
@@ -202,7 +204,7 @@ export function QuoteForm() {
                   value={form.propertyType}
                   onChange={(v) => update("propertyType", v)}
                   options={PROPERTY_TYPES}
-                  placeholder="Select property/Residence..."
+                  placeholder="Select "
                 />
               </Field>
               <Field label="Floor Level">
@@ -287,7 +289,7 @@ export function QuoteForm() {
                   value={form.accessOptions}
                   onChange={(v) => update("accessOptions", v)}
                   options={ACCESS_OPTIONS}
-                  placeholder="Select access option & restr..."
+                  placeholder="Select"
                 />
               </Field>
               <Field label="Elite Services" hint="(Optional)">
@@ -311,18 +313,45 @@ export function QuoteForm() {
 
             <Field label="Media" required>
               <div className="flex items-center justify-between gap-3 rounded-2xl border border-zinc-200 py-3 pl-4 pr-2">
-                <span className={`truncate text-sm ${form.mediaFileName ? "text-zinc-900" : "text-zinc-400"}`}>
-                  {form.mediaFileName || "Select file to upload"}
+                <span className={`truncate text-sm ${form.mediaFiles.length ? "text-zinc-900" : "text-zinc-400"}`}>
+                  {form.mediaFiles.length
+                    ? `${form.mediaFiles.length} file(s) selected`
+                    : "Select file to upload"}
                 </span>
                 <label className="shrink-0 cursor-pointer rounded-full border border-zinc-200 px-4 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50">
                   Select
                   <input
                     type="file"
+                    accept="image/*,video/*"
+                    multiple
                     className="hidden"
-                    onChange={(e) => update("mediaFileName", e.target.files?.[0]?.name ?? "")}
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files ?? []);
+                      if (files.length) update("mediaFiles", [...form.mediaFiles, ...files]);
+                      e.target.value = "";
+                    }}
                   />
                 </label>
               </div>
+              <span className="text-xs font-normal text-zinc-500">
+                Kindly select &amp; upload image &amp; videos of item/equipment you want to move.
+              </span>
+              {form.mediaFiles.length > 0 && (
+                <div className="flex flex-wrap gap-3">
+                  {form.mediaFiles.map((file, i) => (
+                    <MediaThumb
+                      key={`${file.name}-${i}`}
+                      file={file}
+                      onRemove={() =>
+                        update(
+                          "mediaFiles",
+                          form.mediaFiles.filter((_, idx) => idx !== i)
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              )}
             </Field>
           </>
         )}
@@ -429,6 +458,32 @@ export function QuoteForm() {
 const INPUT_CLASS =
   "w-full rounded-2xl border border-zinc-200 py-3.5 px-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100";
 
+function MediaThumb({ file, onRemove }: { file: File; onRemove: () => void }) {
+  const url = useMemo(() => URL.createObjectURL(file), [file]);
+  useEffect(() => () => URL.revokeObjectURL(url), [url]);
+  const isVideo = file.type.startsWith("video/");
+
+  return (
+    <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-zinc-100">
+      {isVideo ? (
+        // eslint-disable-next-line jsx-a11y/media-has-caption
+        <video src={url} className="size-full object-cover" />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={url} alt={file.name} className="size-full object-cover" />
+      )}
+      <button
+        type="button"
+        onClick={onRemove}
+        aria-label={`Remove ${file.name}`}
+        className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80"
+      >
+        <X className="size-3" />
+      </button>
+    </div>
+  );
+}
+
 function Field({
   label,
   hint,
@@ -449,37 +504,5 @@ function Field({
       </span>
       {children}
     </label>
-  );
-}
-
-function Select({
-  value,
-  onChange,
-  options,
-  placeholder,
-}: {
-  value: string;
-  onChange: (value: string) => void;
-  options: string[];
-  placeholder: string;
-}) {
-  return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`${INPUT_CLASS} appearance-none bg-white pr-10`}
-      >
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4.5 -translate-y-1/2 text-zinc-400" />
-    </div>
   );
 }

@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarSearch, ChevronDown, Mail } from "lucide-react";
+import { CalendarSearch, Mail } from "lucide-react";
 import { Modal } from "@/components/modals/Modal";
 import { StatusModal } from "@/components/modals/StatusModal";
+import { Select } from "@/components/ui/Select";
 
 const MOVING_TYPES = [
   "Residential & Apartment Moving",
@@ -182,47 +183,25 @@ export function RecoveryFlow({
 
         <label className="flex flex-col gap-2">
           <span className="text-sm font-semibold text-zinc-900">What&apos;s Your Moving Type</span>
-          <div className="relative">
-            <select
-              required
-              value={movingType}
-              onChange={(e) => setMovingType(e.target.value)}
-              className={`${INPUT_CLASS} appearance-none bg-white pr-10`}
-            >
-              <option value="" disabled>
-                Select Moving Type
-              </option>
-              {MOVING_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4.5 -translate-y-1/2 text-zinc-400" />
-          </div>
+          <Select
+            value={movingType}
+            onChange={setMovingType}
+            options={MOVING_TYPES}
+            placeholder="Select Moving Type"
+            triggerClassName={INPUT_CLASS}
+          />
         </label>
 
         <div className="grid grid-cols-2 gap-3">
           <label className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-zinc-900">Select Your Property Type</span>
-            <div className="relative">
-              <select
-                required
-                value={propertyType}
-                onChange={(e) => setPropertyType(e.target.value)}
-                className={`${INPUT_CLASS} appearance-none bg-white pr-8`}
-              >
-                <option value="" disabled>
-                  Select property/Residenc...
-                </option>
-                {PROPERTY_TYPES.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
-            </div>
+            <Select
+              value={propertyType}
+              onChange={setPropertyType}
+              options={PROPERTY_TYPES}
+              placeholder="Select property/Residenc..."
+              triggerClassName={INPUT_CLASS}
+            />
           </label>
           <label className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-zinc-900">Floor Level</span>

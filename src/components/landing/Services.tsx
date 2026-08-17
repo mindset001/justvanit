@@ -1,4 +1,8 @@
-import { Music2, Truck, Dumbbell, Home } from "lucide-react";
+import Image from "next/image";
+import Piano from "../../../public/images/piano.jpg";
+import Equipment from "../../../public/images/equip.png";
+import House from "../../../public/images/house.jpg";
+import Grow from "../../../public/images/grow.jpg";
 
 export function Services() {
   return (
@@ -15,52 +19,74 @@ export function Services() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:grid-rows-2">
-          <div className="overflow-hidden rounded-2xl bg-zinc-100 sm:row-span-1">
-            <div className="relative flex h-56 flex-col justify-end bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-950 p-5">
-              <Music2 className="absolute right-5 top-5 size-10 text-white/20" />
-              <p className="text-lg font-semibold text-white">Piano & Specialty Moving</p>
+          <div className="relative overflow-hidden rounded-2xl sm:row-span-1">
+            <Image src={Piano} alt="Piano" fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover" />
+            <div className="relative flex h-56 flex-col justify-between bg-gradient-to-b from-black/70 via-black/20 to-black/70 p-5">
+              <div className="rounded-xl border border-brand-400/60 p-3">
+                <p className="text-sm font-semibold text-white">
+                  Move Pianos, pool tables, safes, glass/ art, antiques
+                </p>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-white/70">
+                  Our expert moving partners use padded trucks and a skilled crew to ensure your
+                  belongings are safe. We handle fragile items and instruments with the utmost
+                  care, so you can trust us to protect what matters most.
+                </p>
+              </div>
+              <p className="text-lg font-semibold text-white">Piano & Specialty Moving.</p>
             </div>
           </div>
 
           <div className="overflow-hidden rounded-2xl bg-zinc-50 ring-1 ring-zinc-100 sm:row-span-1">
-            <div className="flex h-full flex-col justify-between p-5">
+            <div className="flex h-full flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center">
               <div>
                 <p className="text-base font-semibold text-navy-900">Office & Commercial Moving</p>
-                <p className="mt-1 text-2xl font-bold text-brand-600">100% Save</p>
+                <p className="mt-1 text-2xl font-bold text-navy-900">100% Save</p>
+                <p className="mt-3 max-w-[16rem] text-xs leading-relaxed text-zinc-500">
+                  Office & Shop relocation Made easy with our moving partners to move your Desks,
+                  chairs, filing cabinets, computers, servers, goods and others...
+                </p>
               </div>
-              <p className="mt-4 text-xs leading-relaxed text-zinc-500">
-                Office & Commercial Moving made easy with your trusted moving Partners for
-                Desks, chairs, filing cabinets, goods and offices.
-              </p>
-              <Truck className="mt-4 size-8 text-brand-300" />
+              <div className="relative h-32 w-full shrink-0 overflow-hidden rounded-xl sm:h-full sm:w-40">
+                <Image src={Grow} alt="Office & Commercial Moving" fill sizes="160px" className="object-cover" />
+              </div>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl bg-navy-900 sm:row-span-2">
-            <div className="relative flex h-full min-h-[19rem] flex-col justify-end bg-gradient-to-b from-navy-800 via-navy-900 to-black p-6">
-              <Dumbbell className="absolute right-6 top-6 size-12 text-white/15" />
-              <p className="text-lg font-semibold text-white">Heavy Equipment & Storage Moving</p>
-              <p className="mt-2 text-xs leading-relaxed text-white/60">
-                Heavy Equipment like Gym equipment, Generator, storage etc, are handled by
-                specialized Moving Partners.
-              </p>
+          <div className="relative overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-100 sm:row-span-2">
+            <div className="relative flex h-full min-h-[19rem] flex-col justify-end p-4">
+              <Image
+                src={Equipment}
+                alt="Heavy Equipment & Storage Moving"
+                fill
+                sizes="(max-width: 640px) 100vw, 33vw"
+                className="object-contain object-bottom p-4"
+              />
+              <div className="relative rounded-2xl bg-navy-900/95 p-5">
+                <p className="text-base font-semibold text-white">
+                  Heavy Equipment & Storage Moving
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-white/60">
+                  Heavy Equipment like Gym equipment, Generators, storage items etc. are handled
+                  by specialized Moving Partners.
+                </p>
+              </div>
             </div>
           </div>
 
           <div className="overflow-hidden rounded-2xl bg-zinc-50 ring-1 ring-zinc-100 sm:col-span-2">
-            <div className="flex h-full flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center">
-              <div>
+            <div className="flex h-full flex-col justify-between gap-6 sm:flex-row sm:items-stretch">
+              <div className="flex flex-col justify-between p-6">
                 <p className="text-lg font-semibold text-navy-900">
                   Household & Residential & Apartment Moving
                 </p>
                 <p className="mt-2 max-w-sm text-xs leading-relaxed text-zinc-500">
-                  Household items & Appliances such as Furniture, clothes, kitchen stuff, TV,
-                  bed, fridge, washing machine, etc, are moved and handled by Moving Companies
-                  with utmost care.
+                  Household Items & Appliances such as Furniture, clothes, kitchen stuff, TV,
+                  bed, fridge, washing machine, etc were moved and handled by specialised Moving
+                  Companies with uttermost care.
                 </p>
               </div>
-              <div className="flex h-32 w-full items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-brand-50 sm:w-40 sm:shrink-0">
-                <Home className="size-10 text-brand-500" />
+              <div className="relative h-48 w-full shrink-0 sm:h-auto sm:w-64">
+                <Image src={House} alt="Household Moving" fill sizes="(max-width: 640px) 100vw, 256px" className="object-cover" />
               </div>
             </div>
           </div>
