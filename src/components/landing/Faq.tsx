@@ -35,10 +35,10 @@ export function Faq() {
         <span className="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-500">
           FAQ
         </span>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
-          Questions? We&apos;ve got answers.
+        <h2 className="mt-4 text-[64px] font-bold tracking-tight text-navy-900 sm:text-4xl">
+          Questions? <span className="font-[300]">We&apos;ve got answers.</span>
         </h2>
-        <p className="mt-3 text-sm text-zinc-500">
+        <p className="mt-3 text-[12px] text-zinc-500">
           Everything you need to know about JustVanIt. Can&apos;t find what you&apos;re looking
           for? Contact our support team.
         </p>
