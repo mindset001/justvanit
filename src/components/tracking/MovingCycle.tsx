@@ -51,18 +51,14 @@ const STAGES = [
 
 function StageCard({ stage }: { stage: (typeof STAGES)[number] }) {
   return (
-    <div className="w-full rounded-2xl bg-white p-5 shadow-sm ring-1 ring-zinc-100">
-      <span className="flex size-8 items-center justify-center rounded-full bg-zinc-100 text-xs font-bold text-navy-900">
+    <div className="relative w-full rounded-2xl bg-white p-6 pt-16 text-left shadow-sm ring-1 ring-zinc-200">
+      <span className="absolute top-4 left-6 flex size-10 items-center justify-center rounded-full border border-navy-900 bg-white text-sm font-bold text-navy-900">
         {stage.number}
       </span>
-      <p className="mt-3 text-base font-semibold text-navy-900">{stage.title}</p>
+      <p className="text-base font-semibold text-navy-900 mt-4">{stage.title}</p>
       <p className="mt-2 text-xs leading-relaxed text-zinc-500">{stage.description}</p>
     </div>
   );
-}
-
-function Connector() {
-  return <div className="hidden h-px flex-1 self-start bg-zinc-300 mt-9 sm:block" />;
 }
 
 export function MovingCycle() {
@@ -71,31 +67,31 @@ export function MovingCycle() {
 
   return (
     <section className="bg-zinc-50 py-20">
-      <div className="mx-auto max-w-6xl px-6 text-center lg:px-10">
-        <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-zinc-500 ring-1 ring-inset ring-zinc-200">
+      <div className="mx-auto max-w-7xl px-6 text-center lg:px-10">
+        <span className="inline-flex shadow items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-zinc-500 ring-1 ring-inset ring-zinc-200">
           Moving Cycle
         </span>
-        <h2 className="mx-auto mt-4 max-w-xl text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
+        <h2 className="mx-auto mt-4 max-w-xl text-3xl font-light tracking-tight text-navy-900 sm:text-4xl">
           Explore the <span className="text-4xl sm:text-5xl">8</span> Stages of the Moving Cycle !
         </h2>
 
-        <div className="relative mt-12">
-          <div className="flex items-start gap-0">
-            {row1.map((stage, i) => (
-              <div key={stage.number} className="flex flex-1 items-start gap-0">
+        <div className="relative mt-16">
+          <div className="relative flex items-start gap-5">
+            <div className="pointer-events-none absolute inset-x-6 top-6 hidden h-px bg-zinc-300 sm:block" />
+            {row1.map((stage) => (
+              <div key={stage.number} className="flex-1">
                 <StageCard stage={stage} />
-                {i < row1.length - 1 && <Connector />}
               </div>
             ))}
           </div>
 
-          <div className="ml-auto hidden h-6 w-px bg-zinc-300 sm:block" style={{ marginRight: "calc(12.5% - 1px)" }} />
+          <div className="ml-auto hidden h-16 w-px bg-zinc-300 sm:block" style={{ marginRight: "calc(12.5% - 1px)" }} />
 
-          <div className="mt-6 flex items-start gap-0">
-            {row2.map((stage, i) => (
-              <div key={stage.number} className="flex flex-1 items-start gap-0">
+          <div className="relative flex items-start gap-5">
+            <div className="pointer-events-none absolute inset-x-6 top-6 hidden h-px bg-zinc-300 sm:block" />
+            {row2.map((stage) => (
+              <div key={stage.number} className="flex-1">
                 <StageCard stage={stage} />
-                {i < row2.length - 1 && <Connector />}
               </div>
             ))}
           </div>

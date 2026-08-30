@@ -1,11 +1,8 @@
-import { ArrowUpRight, Package, Sofa, Truck } from "lucide-react";
-
-const COLLAGE = [
-  { icon: Truck, offset: "", from: "from-zinc-700", to: "to-zinc-950" },
-  { icon: Package, offset: "sm:mt-8", from: "from-indigo-600", to: "to-indigo-900" },
-  { icon: Sofa, offset: "", from: "from-brand-600", to: "to-brand-900" },
-  { icon: Truck, offset: "sm:mt-8", from: "from-zinc-800", to: "to-black" },
-];
+import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import Grow from "../../../public/images/grow.jpg";
+import House from "../../../public/images/house.jpg";
+import VanitHero from "../../../public/images/vanit-hero.jpg";
 
 export function MoveSmarter() {
   return (
@@ -36,17 +33,36 @@ export function MoveSmarter() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          {COLLAGE.map(({ icon: Icon, offset, from, to }, i) => (
-            <div
-              key={i}
-              className={`aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br ${from} ${to} ${offset}`}
-            >
-              <div className="flex h-full items-center justify-center">
-                <Icon className="size-8 text-white/20" />
-              </div>
+        <div className="flex gap-4">
+          <div className="flex w-1/2 flex-col gap-4">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+              <Image
+                src={Grow}
+                alt="Office & Commercial Moving"
+                fill
+                sizes="(max-width: 1024px) 50vw, 25vw"
+                className="object-cover"
+              />
             </div>
-          ))}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+              <Image
+                src={House}
+                alt="Careful item handling"
+                fill
+                sizes="(max-width: 1024px) 50vw, 25vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+          <div className="relative w-1/2 overflow-hidden rounded-2xl">
+            <Image
+              src={VanitHero}
+              alt="Full-service moving"
+              fill
+              sizes="(max-width: 1024px) 50vw, 25vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
     </section>

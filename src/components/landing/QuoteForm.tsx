@@ -6,15 +6,17 @@ import {
   ArrowRight,
   Building2,
   CalendarSearch,
-  ChevronDown,
+  CheckCircle2,
   Clock,
   MapPin,
+  Package,
   Truck,
   X,
 } from "lucide-react";
 import { QuoteCompareModal } from "./QuoteCompareModal";
 import { ProgressRing } from "./ProgressRing";
 import { Select } from "../ui/Select";
+import { MultiSelect } from "../ui/MultiSelect";
 
 export const MOVING_TYPES = [
   "Residential & Apartment Moving",
@@ -35,23 +37,25 @@ const PROPERTY_TYPES = [
 ];
 
 const MOVING_ITEMS = [
-  "Sofa",
+  "Bed Frame",
   "Bed",
-  "Wardrobe",
-  "Dining Table",
-  "Fridge",
+  "Freezer",
+  "Sitting Room Chairs",
+  "Sofas",
+  "Dinning Table Set",
+  "Kitchen Appliances",
   "Washing Machine",
-  "TV",
-  "Boxes",
-  "Piano",
-  "Gym Equipment",
+  "House Heater",
+  "Tv",
+  "Others",
 ];
 
 const ACCESS_OPTIONS = [
-  "Elevator & Parking Provided",
-  "Elevator Only, No Parking",
-  "Parking Only, No Elevator",
-  "Stairs Only, No Parking",
+  "Lift Available",
+  "Narrow Staircase Access",
+  "Long walking distance to truck",
+  "Restricted moving hours",
+  "Permit required",
 ];
 
 const ELITE_SERVICES = [
@@ -62,11 +66,11 @@ const ELITE_SERVICES = [
 ];
 
 const HANDLING_REQUIREMENTS = [
-  "None",
-  "Fragile Items",
-  "Antiques",
-  "Artwork",
-  "Musical Instruments",
+  "Fragile items",
+  "Heavy lifting required",
+  "Disassembly & reassembly needed",
+  "Packing service required",
+  "Storage required",
 ];
 
 const TOTAL_STEPS = 3;
@@ -86,9 +90,9 @@ type FormState = {
   movingDate: string;
   movingTime: string;
   movingItems: string[];
-  accessOptions: string;
+  accessOptions: string[];
   eliteServices: string;
-  handlingRequirement: string;
+  handlingRequirement: string[];
   mediaFiles: File[];
 };
 
@@ -101,9 +105,9 @@ const INITIAL_STATE: FormState = {
   movingDate: "",
   movingTime: "",
   movingItems: [],
-  accessOptions: "",
+  accessOptions: [],
   eliteServices: "",
-  handlingRequirement: "",
+  handlingRequirement: [],
   mediaFiles: [],
 };
 
@@ -119,29 +123,16 @@ function ordinal(value: string) {
 export function QuoteForm() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
-  const [itemsOpen, setItemsOpen] = useState(false);
   const [compareOpen, setCompareOpen] = useState(false);
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const toggleItem = (item: string) =>
-    setForm((prev) => ({
-      ...prev,
-      movingItems: prev.movingItems.includes(item)
-        ? prev.movingItems.filter((i) => i !== item)
-        : [...prev.movingItems, item],
-    }));
-
   const goNext = () => setStep((s) => Math.min(TOTAL_STEPS, s + 1));
   const goPrev = () => setStep((s) => Math.max(1, s - 1));
 
-  const elevator = form.accessOptions.startsWith("Elevator") ? "Yes" : "No";
-  const parking = form.accessOptions.includes("Parking Provided")
-    ? "Provided"
-    : form.accessOptions.includes("Parking Only")
-      ? "Provided"
-      : "Not Provided";
+  const elevator = form.accessOptions.includes("Lift Available") ? "Yes" : "No";
+  const permit = form.accessOptions.includes("Permit required") ? "Required" : "Not Required";
 
   return (
     <div className="w-full rounded-3xl bg-white p-6 shadow-2xl shadow-black/20 sm:p-8">
@@ -251,45 +242,23 @@ export function QuoteForm() {
         {step === 2 && (
           <>
             <Field label="Select Moving Items">
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setItemsOpen((open) => !open)}
-                  className={`${INPUT_CLASS} flex items-center justify-between text-left`}
-                >
-                  <span className={form.movingItems.length ? "text-zinc-900" : "text-zinc-400"}>
-                    {form.movingItems.length ? `${form.movingItems.length} item(s) selected` : "Select all items"}
-                  </span>
-                  <ChevronDown className="size-4.5 shrink-0 text-zinc-400" />
-                </button>
-                {itemsOpen && (
-                  <div className="absolute z-10 mt-1.5 max-h-56 w-full overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-2 shadow-lg">
-                    {MOVING_ITEMS.map((item) => (
-                      <label
-                        key={item}
-                        className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={form.movingItems.includes(item)}
-                          onChange={() => toggleItem(item)}
-                          className="size-4 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-200"
-                        />
-                        {item}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <MultiSelect
+                value={form.movingItems}
+                onChange={(v) => update("movingItems", v)}
+                options={MOVING_ITEMS}
+                placeholder="Select all items"
+                panelTitle="Select House Hold Item"
+              />
             </Field>
 
             <div className="grid grid-cols-2 gap-3">
               <Field label="Access Options & Restraint">
-                <Select
+                <MultiSelect
                   value={form.accessOptions}
                   onChange={(v) => update("accessOptions", v)}
                   options={ACCESS_OPTIONS}
-                  placeholder="Select"
+                  placeholder="Select access option & restr..."
+                  panelTitle="Select Access Options & Restraints"
                 />
               </Field>
               <Field label="Elite Services" hint="(Optional)">
@@ -303,11 +272,12 @@ export function QuoteForm() {
             </div>
 
             <Field label="Special Handling Requirement" required>
-              <Select
+              <MultiSelect
                 value={form.handlingRequirement}
                 onChange={(v) => update("handlingRequirement", v)}
                 options={HANDLING_REQUIREMENTS}
                 placeholder="Select handling requirement"
+                panelTitle="Select Special handling Requirements"
               />
             </Field>
 
@@ -397,10 +367,10 @@ export function QuoteForm() {
                 <div>
                   <p className="text-xs text-zinc-500">Logistics</p>
                   <p className="mt-0.5 text-sm text-zinc-700">
-                    Elevator : <span className="font-semibold">{form.accessOptions ? elevator : "—"}</span>
+                    Elevator : <span className="font-semibold">{form.accessOptions.length ? elevator : "—"}</span>
                   </p>
                   <p className="text-sm text-zinc-700">
-                    Parking : <span className="font-semibold">{form.accessOptions ? parking : "—"}</span>
+                    Permit : <span className="font-semibold">{form.accessOptions.length ? permit : "—"}</span>
                   </p>
                 </div>
               </div>
@@ -413,8 +383,9 @@ export function QuoteForm() {
                   {form.movingItems.map((item) => (
                     <li
                       key={item}
-                      className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700"
                     >
+                      <Package className="size-3.5 text-zinc-400" />
                       {item}
                     </li>
                   ))}
@@ -423,6 +394,31 @@ export function QuoteForm() {
                 <p className="mt-2 text-sm text-zinc-400">No items selected yet.</p>
               )}
             </div>
+
+            {(form.eliteServices || form.handlingRequirement.length > 0) && (
+              <div className="rounded-2xl border border-zinc-200 p-5">
+                <p className="text-base font-semibold text-zinc-900">
+                  Elite Services & Special Handling
+                </p>
+                <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                  {form.eliteServices && (
+                    <span className="inline-flex items-center gap-1.5 text-sm text-zinc-700">
+                      <CheckCircle2 className="size-4 text-emerald-500" />
+                      {form.eliteServices}
+                    </span>
+                  )}
+                  {form.handlingRequirement.map((requirement) => (
+                    <span
+                      key={requirement}
+                      className="inline-flex items-center gap-1.5 text-sm text-zinc-700"
+                    >
+                      <CheckCircle2 className="size-4 text-emerald-500" />
+                      {requirement}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

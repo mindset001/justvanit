@@ -32,7 +32,7 @@ export function Faq() {
   return (
     <section id="faq" className="bg-white py-20">
       <div className="mx-auto max-w-2xl px-6 text-center lg:px-10">
-        <span className="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-500">
+        <span className="inline-flex shadow items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-500">
           FAQ
         </span>
         <h2 className="mt-4 text-[64px] font-bold tracking-tight text-navy-900 sm:text-4xl">

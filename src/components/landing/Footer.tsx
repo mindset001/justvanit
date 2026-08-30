@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -53,15 +53,21 @@ const LEGAL_LINKS = [
 ];
 
 const SOCIALS = [
-  { icon: LinkedinIcon, href: "#", label: "LinkedIn" },
-  { icon: InstagramIcon, href: "#", label: "Instagram" },
-  { icon: TiktokIcon, href: "#", label: "TikTok" },
-  { icon: XIcon, href: "#", label: "X" },
+  { icon: LinkedinIcon, href: "#", label: "LinkedIn", colorClass: "text-[#0A66C2]" },
+  { icon: InstagramIcon, href: "#", label: "Instagram", colorClass: "text-[#8134AF]" },
+  { icon: TiktokIcon, href: "#", label: "TikTok", colorClass: "text-black" },
+  { icon: XIcon, href: "#", label: "X", colorClass: "text-black" },
+];
+
+const CONTACT_DETAILS = [
+  { icon: Mail, label: "Email Us", value: "Support@JustVanIt.uk" },
+  { icon: Phone, label: "Call Us", value: "+441 5985 55446" },
+  { icon: MapPin, label: "Office", value: "4, Fleet Street, London, EC4A 2DQ" },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-navy-900 pt-16 text-white/70">
+    <footer className="relative overflow-hidden bg-navy-900 pt-16 text-white/70">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid gap-10 border-b border-white/10 pb-12 lg:grid-cols-[1.3fr_0.7fr_0.7fr]">
           <div>
@@ -72,39 +78,39 @@ export function Footer() {
               JustVanIt.
             </p>
             <form
-              className="mt-5 flex max-w-sm items-center gap-2"
+              className="mt-5 flex max-w-md items-center justify-between gap-2 rounded-full border border-white/30 p-1.5 pl-5"
               onSubmit={(e) => e.preventDefault()}
             >
               <input
                 type="email"
                 required
                 placeholder="Your Email"
-                className="w-full rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-brand-400 focus:outline-none"
+                className="w-full bg-transparent text-sm text-white placeholder:text-white/60 focus:outline-none"
               />
               <button
                 type="submit"
-                className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+                className="shrink-0 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-600 transition-colors hover:bg-zinc-100"
               >
                 Subscribe
-                <ArrowRight className="size-3.5" />
               </button>
             </form>
 
-            <p className="mt-8 text-lg font-semibold text-white">
-              The Future of Moving is just made easier.
+            <p className="mt-8 text-2xl text-white">
+              The Future of Moving is <span className="font-bold">just made easier.</span>
             </p>
             <div className="mt-4 flex items-center gap-3">
-              {SOCIALS.map(({ icon: Icon, href, label }) => (
+              {SOCIALS.map(({ icon: Icon, href, label, colorClass }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex size-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/30 hover:text-white"
+                  className={`flex size-10 items-center justify-center rounded-xl bg-white transition-opacity hover:opacity-90 ${colorClass}`}
                 >
-                  <Icon className="size-4" />
+                  <Icon className="size-4.5" />
                 </a>
               ))}
             </div>
+            <p className="mt-3 text-sm text-white/50">Give us a follow on our socials.</p>
           </div>
 
           <div>
@@ -134,23 +140,28 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-6 text-sm text-white/50">
-            <span className="inline-flex items-center gap-2">
-              <Mail className="size-4" />
-              Support@JustVanIt.uk
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Phone className="size-4" />
-              +441 5985 55446
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <MapPin className="size-4" />4 Fleet Street, London, EC4A 2DQ
-            </span>
-          </div>
+        <div className="relative flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+          {CONTACT_DETAILS.map(({ icon: Icon, label, value }) => (
+            <div key={label} className="flex items-center gap-3">
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white/10">
+                <Icon className="size-4.5 text-white" />
+              </span>
+              <div>
+                <p className="text-xs text-white/50">{label}</p>
+                <p className="text-sm font-semibold text-white">{value}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-white/10 py-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[10rem] font-black leading-none tracking-tight text-white/5"
+        >
+          JUSTVANIT
+        </span>
+
+        <div className="relative flex flex-col gap-3 border-t border-white/10 py-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 JustVanIt. Made to make relocation easier.</p>
           <div className="flex items-center gap-5">
             <Link href="/terms" className="hover:text-white/70">

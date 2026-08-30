@@ -14,10 +14,10 @@ export function TrackingHero() {
 
   return (
     <section
-      className="relative overflow-hidden rounded-b-3xl"
+      className="relative min-h-[520px] overflow-hidden bg-cover bg-center lg:min-h-[700px]"
       style={{
         backgroundImage:
-          "linear-gradient(180deg, rgba(5,8,20,0.78) 0%, rgba(5,8,20,0.45) 45%, rgba(5,8,20,0.2) 100%), linear-gradient(160deg, #c9b48a 0%, #8d7452 30%, #4a3f33 55%, #1c1c22 80%, #0a0a0d 100%)",
+          "linear-gradient(180deg, rgba(5,8,20,0.9) 0%, rgba(5,8,20,0.8) 45%, rgba(5,8,20,0.8) 100%), url(/images/vanit-hero.jpg)",
       }}
     >
       <Header variant="dark" />
@@ -53,7 +53,7 @@ export function TrackingHero() {
             />
             <button
               type="submit"
-              className="shrink-0 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+              className="shrink-0 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-600 transition-colors hover:bg-zinc-100"
             >
               Track Now
             </button>

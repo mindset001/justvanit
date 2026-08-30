@@ -1,11 +1,35 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { useAuth } from "@/lib/auth/AuthContext";
+import { getErrorMessage } from "@/lib/api/errors";
+import { FormError } from "@/components/ui/FormError";
 
 export function LoginForm() {
+  const router = useRouter();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      await signIn({ email, password });
+      router.push("/");
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col">
@@ -15,10 +39,9 @@ export function LoginForm() {
         moving partners can now log in to access their dashboards and track moving history.
       </p>
 
-      <form
-        className="mt-8 flex flex-col gap-4"
-        onSubmit={(e) => e.preventDefault()}
-      >
+      <form className="mt-8 flex flex-col gap-4" onSubmit={handleSubmit}>
+        <FormError message={error} />
+
         <label className="flex flex-col gap-2">
           <span className="text-sm font-semibold text-zinc-900">
             Email
@@ -37,12 +60,39 @@ export function LoginForm() {
           </div>
         </label>
 
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-zinc-900">
+            Password
+            <span className="ml-0.5 text-red-500">*</span>
+          </span>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
+            <input
+              type={showPassword ? "text" : "password"}
+              required
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-xl border border-zinc-200 py-3 pl-10 pr-10 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
+            >
+              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+            </button>
+          </div>
+        </label>
+
         <div className="mt-4 flex justify-end">
           <button
             type="submit"
-            className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+            disabled={submitting}
+            className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Login
+            {submitting ? "Logging in..." : "Login"}
             <ArrowRight className="size-4" />
           </button>
         </div>
