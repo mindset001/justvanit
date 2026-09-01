@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -121,6 +122,7 @@ function ordinal(value: string) {
 }
 
 export function QuoteForm() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [compareOpen, setCompareOpen] = useState(false);
@@ -446,7 +448,14 @@ export function QuoteForm() {
 
       </form>
 
-      <QuoteCompareModal open={compareOpen} onClose={() => setCompareOpen(false)} />
+      <QuoteCompareModal
+        open={compareOpen}
+        onClose={() => setCompareOpen(false)}
+        onSubmit={(quote) => {
+          setCompareOpen(false);
+          router.push(`/get-quote/payment?quote=${quote.id}`);
+        }}
+      />
     </div>
   );
 }

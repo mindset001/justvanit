@@ -12,77 +12,9 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { QUOTES, type Quote } from "@/lib/quotes";
 
-export type Quote = {
-  id: string;
-  company: string;
-  tagline?: string;
-  rating: number;
-  reviews: number;
-  completedMoves: number;
-  arrival: string;
-  vehicle: string;
-  insurance: boolean;
-  movers: number;
-  packingMaterial: boolean;
-  price: number;
-};
-
-const QUOTES: Quote[] = [
-  {
-    id: "reallymoving",
-    company: "Reallymoving Ltd",
-    rating: 4.9,
-    reviews: 124,
-    completedMoves: 52,
-    arrival: "Oct 24, 08:00 AM",
-    vehicle: "Luton Van (Tail Lift)",
-    insurance: true,
-    movers: 2,
-    packingMaterial: true,
-    price: 450,
-  },
-  {
-    id: "anyvan",
-    company: "ANYVAN Ltd",
-    tagline: "Move Anything, Anywhere",
-    rating: 4.4,
-    reviews: 205,
-    completedMoves: 200,
-    arrival: "Oct 24, 08:00 AM",
-    vehicle: "Luton Van (Tail Lift)",
-    insurance: true,
-    movers: 2,
-    packingMaterial: true,
-    price: 320,
-  },
-  {
-    id: "pickfords",
-    company: "Pickfords",
-    rating: 4.6,
-    reviews: 312,
-    completedMoves: 480,
-    arrival: "Oct 24, 09:30 AM",
-    vehicle: "Luton Van (Tail Lift)",
-    insurance: true,
-    movers: 3,
-    packingMaterial: true,
-    price: 410,
-  },
-  {
-    id: "britannia",
-    company: "Britannia Movers",
-    rating: 4.3,
-    reviews: 178,
-    completedMoves: 96,
-    arrival: "Oct 24, 10:00 AM",
-    vehicle: "Transit Van",
-    insurance: true,
-    movers: 2,
-    packingMaterial: false,
-    price: 295,
-  },
-];
+export type { Quote };
 
 export function PartnerBadge({ company, tagline }: { company: string; tagline?: string }) {
   return (
@@ -223,7 +155,10 @@ export function QuoteCompareModal({
         <div className="flex justify-end border-t border-zinc-100 p-6">
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              const quote = QUOTES.find((q) => q.id === selectedId);
+              if (quote) onSubmit(quote);
+            }}
             className="inline-flex items-center rounded-full bg-indigo-600 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
           >
             Submit
