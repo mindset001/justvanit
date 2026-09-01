@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CalendarDays, CheckCircle2, Mail, Package, Phone, ShieldCheck, Star, Truck, User, Users } from "lucide-react";
 import { PartnerBadge, FeaturePill } from "./QuoteCompareModal";
+import { BookingSuccessModal } from "./BookingSuccessModal";
 import type { Quote } from "@/lib/quotes";
 
 type ContactState = {
@@ -39,6 +40,7 @@ function Field({
 
 export function PaymentPreview({ quote }: { quote: Quote }) {
   const [contact, setContact] = useState<ContactState>(INITIAL_CONTACT);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const updateContact = <K extends keyof ContactState>(key: K, value: ContactState[K]) =>
     setContact((prev) => ({ ...prev, [key]: value }));
@@ -97,6 +99,7 @@ export function PaymentPreview({ quote }: { quote: Quote }) {
         className="mt-6 flex flex-col gap-4"
         onSubmit={(e) => {
           e.preventDefault();
+          setShowSuccess(true);
         }}
       >
         <div>
@@ -171,6 +174,8 @@ export function PaymentPreview({ quote }: { quote: Quote }) {
           </button>
         </div>
       </form>
+
+      {showSuccess && <BookingSuccessModal onClose={() => setShowSuccess(false)} />}
     </div>
   );
 }
