@@ -4,16 +4,16 @@ export function PartnerHeroPanel() {
   return (
     <div className="relative hidden min-h-[32rem] overflow-hidden bg-navy-900 lg:block">
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "linear-gradient(180deg, rgba(10,14,30,0.35), rgba(5,8,20,0.85) 60%, rgba(2,4,10,0.96) 100%), linear-gradient(135deg, #d8c9a3 0%, #b9a77e 22%, #6b5b46 42%, #2a2a2e 62%, #0b0d16 82%, #05060b 100%)",
+            "linear-gradient(180deg, rgba(10,14,30,0.35), rgba(5,8,20,0.85) 60%, rgba(2,4,10,0.96) 100%), url(/images/move3.jpg)",
         }}
       />
 
       <div className="relative flex h-full flex-col justify-between p-10">
         <span className="text-xl font-extrabold tracking-tight text-white">
-          JUSTVANIT<span className="text-brand-400">.</span>
+          JUST<span className="text-brand-400">VANIT.</span>
         </span>
 
         <div className="max-w-md">

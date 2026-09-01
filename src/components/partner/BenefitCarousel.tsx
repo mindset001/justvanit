@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Truck } from "lucide-react";
+import Image from "next/image";
+import Bus from "../../../public/images/bus.png";
+import Bus2 from "../../../public/images/bus2.png";
 
 const SLIDES = [
   {
@@ -16,28 +18,6 @@ const SLIDES = [
   },
 ];
 
-const AVATAR_POSITIONS = [
-  "left-2 top-6",
-  "left-20 top-0",
-  "right-24 top-2",
-  "right-0 top-16",
-  "left-0 top-40",
-  "left-28 top-56",
-  "right-32 top-52",
-  "right-4 top-64",
-];
-
-const AVATAR_GRADIENTS = [
-  "from-brand-400 to-brand-600",
-  "from-amber-400 to-orange-500",
-  "from-emerald-400 to-teal-600",
-  "from-fuchsia-400 to-purple-600",
-  "from-rose-400 to-red-500",
-  "from-sky-400 to-blue-600",
-  "from-lime-400 to-green-600",
-  "from-violet-400 to-indigo-600",
-];
-
 export function BenefitCarousel() {
   const [index, setIndex] = useState(0);
   const slide = SLIDES[index];
@@ -46,7 +26,7 @@ export function BenefitCarousel() {
     <section className="bg-zinc-50 py-20">
       <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-2 lg:items-center lg:px-10">
         <div>
-          <span className="inline-flex items-center rounded-full border border-zinc-200 px-3 py-1 text-xs font-semibold text-zinc-600">
+          <span className="inline-flex items-center rounded-full border border-brand-500 px-3 py-1 text-xs font-semibold text-zinc-600">
             Benefit of Choosing JustVanIt
           </span>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
@@ -71,17 +51,10 @@ export function BenefitCarousel() {
           </div>
         </div>
 
-        <div className="relative mx-auto h-80 w-full max-w-md">
-          {AVATAR_POSITIONS.map((position, i) => (
-            <span
-              key={i}
-              className={`absolute size-10 rounded-full border-4 border-zinc-50 bg-gradient-to-br shadow-sm ${AVATAR_GRADIENTS[i]} ${position}`}
-            />
-          ))}
+        <div className="relative mx-auto aspect-[760/639] w-full max-w-2xl">
+          <Image src={Bus2} alt="" fill sizes="(max-width: 1024px) 90vw, 672px" className="object-contain" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex size-40 items-center justify-center rounded-full bg-gradient-to-br from-zinc-200 via-zinc-300 to-zinc-500 shadow-xl">
-              <Truck className="size-16 text-white" />
-            </div>
+            <Image src={Bus} alt="Moving truck" className="w-[58%]" />
           </div>
         </div>
       </div>

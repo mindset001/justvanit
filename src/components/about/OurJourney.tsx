@@ -24,6 +24,27 @@ const STATS = [
   },
 ];
 
+function StatCard({ stat }: { stat: (typeof STATS)[number] }) {
+  return (
+    <div
+      className={`rounded-2xl bg-white shadow-md ${
+        stat.tinted ? "p-8 ring-1 ring-brand-500" : "p-5 ring-1 ring-zinc-200"
+      }`}
+    >
+      <p className="text-2xl font-extrabold tracking-tight text-navy-900 sm:text-3xl">
+        {stat.value}
+      </p>
+      <p
+        className={`mt-2 text-xs leading-relaxed text-zinc-500 sm:text-sm ${
+          stat.tinted ? "" : "line-clamp-2"
+        }`}
+      >
+        {stat.description}
+      </p>
+    </div>
+  );
+}
+
 export function OurJourney() {
   return (
     <section className="bg-zinc-50 py-20">
@@ -49,18 +70,15 @@ export function OurJourney() {
             that best suits your financial needs.
           </p>
 
-          <div className="grid grid-cols-2 gap-4">
-            {STATS.map((stat) => (
-              <div
-                key={stat.value}
-                className={`rounded-2xl border p-5 ${
-                  stat.tinted ? "border-indigo-100 bg-indigo-50/60" : "border-zinc-200 bg-white"
-                }`}
-              >
-                <p className="text-lg font-bold text-navy-900">{stat.value}</p>
-                <p className="mt-1.5 text-xs leading-relaxed text-zinc-500">{stat.description}</p>
-              </div>
-            ))}
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-[3fr_2fr] items-start gap-4">
+              <StatCard stat={STATS[0]} />
+              <StatCard stat={STATS[1]} />
+            </div>
+            <div className="grid grid-cols-[2fr_3fr] items-start gap-4">
+              <StatCard stat={STATS[2]} />
+              <StatCard stat={STATS[3]} />
+            </div>
           </div>
         </div>
       </div>

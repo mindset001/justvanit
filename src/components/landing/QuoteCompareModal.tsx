@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 
-type Quote = {
+export type Quote = {
   id: string;
   company: string;
   tagline?: string;
@@ -84,7 +84,7 @@ const QUOTES: Quote[] = [
   },
 ];
 
-function PartnerBadge({ company, tagline }: { company: string; tagline?: string }) {
+export function PartnerBadge({ company, tagline }: { company: string; tagline?: string }) {
   return (
     <span className="inline-flex flex-col items-start rounded-lg border border-zinc-200 bg-white px-2.5 py-1">
       <span className="text-xs font-bold text-indigo-600">{company}</span>
@@ -93,7 +93,7 @@ function PartnerBadge({ company, tagline }: { company: string; tagline?: string 
   );
 }
 
-function FeaturePill({ icon: Icon, label }: { icon: typeof ShieldCheck; label: string }) {
+export function FeaturePill({ icon: Icon, label }: { icon: typeof ShieldCheck; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-600">
       <Icon className="size-3.5 text-zinc-400" />
@@ -173,7 +173,15 @@ function QuoteCard({
   );
 }
 
-export function QuoteCompareModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function QuoteCompareModal({
+  open,
+  onClose,
+  onSubmit,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: (quote: Quote) => void;
+}) {
   const [selectedId, setSelectedId] = useState(QUOTES[0].id);
 
   if (!open) return null;

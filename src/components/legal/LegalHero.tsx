@@ -4,10 +4,10 @@ export function LegalHero({ title, description }: { title: string; description: 
   return (
     <section className="px-4 pt-4 sm:px-6 sm:pt-6 lg:px-10">
       <div
-        className="relative overflow-hidden rounded-3xl"
+        className="relative min-h-[420px] overflow-hidden rounded-3xl bg-cover bg-center"
         style={{
           backgroundImage:
-            "linear-gradient(180deg, rgba(5,8,20,0.8) 0%, rgba(5,8,20,0.4) 38%, rgba(5,8,20,0.15) 68%), linear-gradient(120deg, #e9e2d3 0%, #d8cdb6 30%, #b9ac8f 55%, #8f8770 80%, #6b6a5c 100%)",
+            "linear-gradient(180deg, rgba(5,8,20,0.8) 0%, rgba(5,8,20,0.4) 38%, rgba(5,8,20,0.15) 68%), url(/images/lady2.jpg)",
         }}
       >
         <Header variant="dark" />

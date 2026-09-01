@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import Move3 from "../../../public/images/move3.jpg";
 
 const SLIDES = [
   {
@@ -23,11 +25,12 @@ export function OurMission() {
   return (
     <section className="bg-white px-6 py-16 lg:px-10">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl">
+        <Image src={Move3} alt="" fill sizes="(max-width: 1152px) 100vw, 1152px" className="object-cover" />
         <div
-          className="flex h-[26rem] flex-col justify-end p-8 sm:p-12"
+          className="relative flex h-[26rem] flex-col justify-end p-8 sm:p-12"
           style={{
             backgroundImage:
-              "linear-gradient(90deg, rgba(5,8,20,0.85) 0%, rgba(5,8,20,0.35) 55%, rgba(5,8,20,0.1) 100%), linear-gradient(160deg, #c9b48a 0%, #8d7452 30%, #4a3f33 55%, #1c1c22 80%, #0a0a0d 100%)",
+              "linear-gradient(0deg, rgba(5,8,20,0.85) 0%, rgba(5,8,20,0.55) 40%, rgba(5,8,20,0.15) 75%, rgba(5,8,20,0) 100%)",
           }}
         >
           <div className="max-w-lg text-white">
